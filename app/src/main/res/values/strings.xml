@@ -1,0 +1,79 @@
+<resources>
+    <string name="app_name">Workers Book</string>
+
+    <!-- Nav -->
+    <string name="nav_dashboard">Dashboard</string>
+    <string name="nav_entries">Entries</string>
+    <string name="nav_reports">Reports</string>
+    <string name="nav_permanent">Permanent</string>
+    <string name="nav_more">More</string>
+
+    <!-- Dashboard -->
+    <string name="dashboard_title">Workers</string>
+    <string name="permanent">Permanent</string>
+    <string name="female">Female</string>
+    <string name="male">Male</string>
+    <string name="contract">Contract</string>
+    <string name="part_time">Part-Time</string>
+    <string name="active">Active</string>
+    <string name="total_active_workers">Total Active Workers</string>
+    <string name="total_labour_cost">Total Labour Cost</string>
+    <string name="todays_work_entries">Today\'s Work Entries</string>
+    <string name="view_all">View All</string>
+
+    <!-- Entries -->
+    <string name="entries_title">Entries</string>
+    <string name="add_entry">Add Entry</string>
+    <string name="filter_all">All</string>
+
+    <!-- Add entry -->
+    <string name="date">Date</string>
+    <string name="worker_type">Worker Type</string>
+    <string name="select_worker_type">Select Worker Type</string>
+    <string name="male_workers">Male Workers</string>
+    <string name="female_workers">Female Workers</string>
+    <string name="contract_workers">Contract Workers</string>
+    <string name="part_time_workers">Part-Time Workers</string>
+    <string name="no_of_people">No. of People</string>
+    <string name="price_per_person">Price / Person (₹)</string>
+    <string name="price_per_hour">Price / Hour (₹)</string>
+    <string name="total_amount">Total Amount (₹)</string>
+    <string name="work_type">Work Type</string>
+    <string name="note">Note</string>
+    <string name="save_entry">Save Entry</string>
+    <string name="contractor_name">Contractor / Group Name</string>
+    <string name="contract_amount">Contract Amount (₹)</string>
+    <string name="entry_saved">Entry Saved Successfully!</string>
+    <string name="back_to_entries">Back to Entries</string>
+    <string name="add_another_entry">Add Another Entry</string>
+
+    <!-- Reports -->
+    <string name="reports_title">Reports</string>
+    <string name="from">From</string>
+    <string name="to">To</string>
+    <string name="filter">Filter</string>
+    <string name="summary">Summary</string>
+    <string name="total_worker_expense">Total Worker Expense</string>
+
+    <!-- Permanent workers -->
+    <string name="permanent_workers">Permanent Workers</string>
+    <string name="add_worker">Add Worker</string>
+    <string name="monthly_salary">Monthly Salary</string>
+    <string name="pending">Pending</string>
+    <string name="paid">Paid</string>
+    <string name="pay_salary">Pay Salary</string>
+    <string name="month">Month</string>
+    <string name="amount">Amount</string>
+    <string name="payment_mode">Payment Mode</string>
+    <string name="confirm_payment">Confirm Payment</string>
+    <string name="salary_paid_successfully">Salary Paid Successfully!</string>
+    <string name="back_to_list">Back to List</string>
+
+    <!-- Common -->
+    <string name="next">Next</string>
+    <string name="cancel">Cancel</string>
+    <string name="delete">Delete</string>
+    <string name="edit">Edit</string>
+    <string name="language">Language</string>
+    <string name="farm_name">Arecanut Farm</string>
+</resources>

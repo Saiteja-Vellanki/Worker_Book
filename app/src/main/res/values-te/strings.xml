@@ -1,0 +1,72 @@
+<resources>
+    <string name="app_name">వర్కర్స్ బుక్</string>
+
+    <string name="nav_dashboard">డాష్‌బోర్డ్</string>
+    <string name="nav_entries">ఎంట్రీలు</string>
+    <string name="nav_reports">నివేదికలు</string>
+    <string name="nav_permanent">శాశ్వత</string>
+    <string name="nav_more">మరిన్ని</string>
+
+    <string name="dashboard_title">వర్కర్లు</string>
+    <string name="permanent">శాశ్వత</string>
+    <string name="female">స్త్రీలు</string>
+    <string name="male">పురుషులు</string>
+    <string name="contract">కాంట్రాక్ట్</string>
+    <string name="part_time">పార్ట్-టైమ్</string>
+    <string name="active">యాక్టివ్</string>
+    <string name="total_active_workers">మొత్తం యాక్టివ్ వర్కర్లు</string>
+    <string name="total_labour_cost">మొత్తం కూలి ఖర్చు</string>
+    <string name="todays_work_entries">ఈరోజు పని ఎంట్రీలు</string>
+    <string name="view_all">అన్నీ చూడండి</string>
+
+    <string name="entries_title">ఎంట్రీలు</string>
+    <string name="add_entry">ఎంట్రీ చేర్చండి</string>
+    <string name="filter_all">అన్నీ</string>
+
+    <string name="date">తేదీ</string>
+    <string name="worker_type">వర్కర్ రకం</string>
+    <string name="select_worker_type">వర్కర్ రకం ఎంచుకోండి</string>
+    <string name="male_workers">పురుష వర్కర్లు</string>
+    <string name="female_workers">స్త్రీ వర్కర్లు</string>
+    <string name="contract_workers">కాంట్రాక్ట్ వర్కర్లు</string>
+    <string name="part_time_workers">పార్ట్-టైమ్ వర్కర్లు</string>
+    <string name="no_of_people">వ్యక్తుల సంఖ్య</string>
+    <string name="price_per_person">ధర / వ్యక్తి (₹)</string>
+    <string name="price_per_hour">ధర / గంట (₹)</string>
+    <string name="total_amount">మొత్తం మొత్తం (₹)</string>
+    <string name="work_type">పని రకం</string>
+    <string name="note">గమనిక</string>
+    <string name="save_entry">ఎంట్రీ సేవ్ చేయండి</string>
+    <string name="contractor_name">కాంట్రాక్టర్ / గ్రూప్ పేరు</string>
+    <string name="contract_amount">కాంట్రాక్ట్ మొత్తం (₹)</string>
+    <string name="entry_saved">ఎంట్రీ విజయవంతంగా సేవ్ అయ్యింది!</string>
+    <string name="back_to_entries">ఎంట్రీలకు వెళ్ళండి</string>
+    <string name="add_another_entry">మరో ఎంట్రీ చేర్చండి</string>
+
+    <string name="reports_title">నివేదికలు</string>
+    <string name="from">నుండి</string>
+    <string name="to">వరకు</string>
+    <string name="filter">ఫిల్టర్</string>
+    <string name="summary">సారాంశం</string>
+    <string name="total_worker_expense">మొత్తం వర్కర్ ఖర్చు</string>
+
+    <string name="permanent_workers">శాశ్వత వర్కర్లు</string>
+    <string name="add_worker">వర్కర్‌ని చేర్చండి</string>
+    <string name="monthly_salary">నెలవారీ జీతం</string>
+    <string name="pending">పెండింగ్</string>
+    <string name="paid">చెల్లించబడింది</string>
+    <string name="pay_salary">జీతం చెల్లించండి</string>
+    <string name="month">నెల</string>
+    <string name="amount">మొత్తం</string>
+    <string name="payment_mode">చెల్లింపు విధానం</string>
+    <string name="confirm_payment">చెల్లింపు నిర్ధారించండి</string>
+    <string name="salary_paid_successfully">జీతం విజయవంతంగా చెల్లించబడింది!</string>
+    <string name="back_to_list">జాబితాకు వెళ్ళండి</string>
+
+    <string name="next">తదుపరి</string>
+    <string name="cancel">రద్దు చేయండి</string>
+    <string name="delete">తొలగించండి</string>
+    <string name="edit">సవరించండి</string>
+    <string name="language">భాష</string>
+    <string name="farm_name">అరేకనట్ ఫామ్</string>
+</resources>

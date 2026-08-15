@@ -1,0 +1,72 @@
+<resources>
+    <string name="app_name">वर्कर्स बुक</string>
+
+    <string name="nav_dashboard">डैशबोर्ड</string>
+    <string name="nav_entries">एंट्रीज़</string>
+    <string name="nav_reports">रिपोर्ट्स</string>
+    <string name="nav_permanent">स्थायी</string>
+    <string name="nav_more">और</string>
+
+    <string name="dashboard_title">वर्कर्स</string>
+    <string name="permanent">स्थायी</string>
+    <string name="female">महिला</string>
+    <string name="male">पुरुष</string>
+    <string name="contract">कॉन्ट्रैक्ट</string>
+    <string name="part_time">पार्ट-टाइम</string>
+    <string name="active">सक्रिय</string>
+    <string name="total_active_workers">कुल सक्रिय वर्कर्स</string>
+    <string name="total_labour_cost">कुल मजदूरी खर्च</string>
+    <string name="todays_work_entries">आज की कार्य एंट्रीज़</string>
+    <string name="view_all">सभी देखें</string>
+
+    <string name="entries_title">एंट्रीज़</string>
+    <string name="add_entry">एंट्री जोड़ें</string>
+    <string name="filter_all">सभी</string>
+
+    <string name="date">तारीख</string>
+    <string name="worker_type">वर्कर प्रकार</string>
+    <string name="select_worker_type">वर्कर प्रकार चुनें</string>
+    <string name="male_workers">पुरुष वर्कर्स</string>
+    <string name="female_workers">महिला वर्कर्स</string>
+    <string name="contract_workers">कॉन्ट्रैक्ट वर्कर्स</string>
+    <string name="part_time_workers">पार्ट-टाइम वर्कर्स</string>
+    <string name="no_of_people">व्यक्तियों की संख्या</string>
+    <string name="price_per_person">मूल्य / व्यक्ति (₹)</string>
+    <string name="price_per_hour">मूल्य / घंटा (₹)</string>
+    <string name="total_amount">कुल राशि (₹)</string>
+    <string name="work_type">कार्य प्रकार</string>
+    <string name="note">टिप्पणी</string>
+    <string name="save_entry">एंट्री सेव करें</string>
+    <string name="contractor_name">ठेकेदार / ग्रुप नाम</string>
+    <string name="contract_amount">कॉन्ट्रैक्ट राशि (₹)</string>
+    <string name="entry_saved">एंट्री सफलतापूर्वक सेव हुई!</string>
+    <string name="back_to_entries">एंट्रीज़ पर वापस जाएं</string>
+    <string name="add_another_entry">एक और एंट्री जोड़ें</string>
+
+    <string name="reports_title">रिपोर्ट्स</string>
+    <string name="from">से</string>
+    <string name="to">तक</string>
+    <string name="filter">फ़िल्टर</string>
+    <string name="summary">सारांश</string>
+    <string name="total_worker_expense">कुल वर्कर खर्च</string>
+
+    <string name="permanent_workers">स्थायी वर्कर्स</string>
+    <string name="add_worker">वर्कर जोड़ें</string>
+    <string name="monthly_salary">मासिक वेतन</string>
+    <string name="pending">लंबित</string>
+    <string name="paid">भुगतान हुआ</string>
+    <string name="pay_salary">वेतन भुगतान करें</string>
+    <string name="month">महीना</string>
+    <string name="amount">राशि</string>
+    <string name="payment_mode">भुगतान का तरीका</string>
+    <string name="confirm_payment">भुगतान की पुष्टि करें</string>
+    <string name="salary_paid_successfully">वेतन का भुगतान सफल हुआ!</string>
+    <string name="back_to_list">सूची पर वापस जाएं</string>
+
+    <string name="next">आगे</string>
+    <string name="cancel">रद्द करें</string>
+    <string name="delete">हटाएं</string>
+    <string name="edit">संपादित करें</string>
+    <string name="language">भाषा</string>
+    <string name="farm_name">अरेकनट फार्म</string>
+</resources>
