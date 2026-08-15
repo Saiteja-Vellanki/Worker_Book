@@ -14,6 +14,7 @@ import com.saivani.workersbook.R
 import com.saivani.workersbook.data.WorkerType
 import com.saivani.workersbook.viewmodel.WorkersViewModel
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun EntriesScreen(viewModel: WorkersViewModel, onAddEntry: () -> Unit) {
     val entries by viewModel.entriesForSelectedDate.collectAsState()

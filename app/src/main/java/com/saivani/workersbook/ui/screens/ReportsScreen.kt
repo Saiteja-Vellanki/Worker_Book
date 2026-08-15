@@ -1,5 +1,6 @@
 package com.saivani.workersbook.ui.screens
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -113,4 +114,4 @@ private fun SummaryRow(label: String, amount: Double) {
 }
 
 private fun Modifier.androidxClickable(onClick: () -> Unit): Modifier =
-    this.then(androidx.compose.foundation.clickable(onClick = onClick))
+    this.clickable(onClick = onClick)

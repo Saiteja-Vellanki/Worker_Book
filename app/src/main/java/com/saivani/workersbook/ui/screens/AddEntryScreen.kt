@@ -1,5 +1,6 @@
 package com.saivani.workersbook.ui.screens
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardOptions
@@ -156,6 +157,7 @@ fun AddEntryScreen(viewModel: WorkersViewModel, onSaved: () -> Unit, onCancel: (
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun WorkerTypeSelector(selected: WorkerType, onSelect: (WorkerType) -> Unit) {
     Row(horizontalArrangement = Arrangement.spacedBy(8.dp), modifier = Modifier.fillMaxWidth()) {
@@ -179,4 +181,4 @@ fun labelFor(type: WorkerType): String = when (type) {
 
 // Small helper: makes a read-only OutlinedTextField act like a clickable button (opens the date picker)
 private fun Modifier.clickableField(onClick: () -> Unit): Modifier =
-    this.then(androidx.compose.foundation.clickable(onClick = onClick))
+    this.clickable(onClick = onClick)

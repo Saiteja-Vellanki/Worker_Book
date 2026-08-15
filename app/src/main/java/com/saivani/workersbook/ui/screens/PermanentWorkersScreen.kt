@@ -17,6 +17,7 @@ import com.saivani.workersbook.R
 import com.saivani.workersbook.data.PermanentWorker
 import com.saivani.workersbook.viewmodel.WorkersViewModel
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun PermanentWorkersScreen(viewModel: WorkersViewModel, onOpenWorker: (Long) -> Unit) {
     val workers by viewModel.permanentWorkers.collectAsState()

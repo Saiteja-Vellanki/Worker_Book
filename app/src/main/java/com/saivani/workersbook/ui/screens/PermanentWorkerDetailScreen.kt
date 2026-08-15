@@ -16,6 +16,7 @@ import com.saivani.workersbook.viewmodel.WorkersViewModel
 import java.text.SimpleDateFormat
 import java.util.*
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun PermanentWorkerDetailScreen(viewModel: WorkersViewModel, workerId: Long, onBack: () -> Unit) {
     val workers by viewModel.permanentWorkers.collectAsState()
@@ -85,6 +86,7 @@ fun PermanentWorkerDetailScreen(viewModel: WorkersViewModel, workerId: Long, onB
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun PaySalaryDialog(defaultAmount: Double, defaultMonth: String, onDismiss: () -> Unit, onConfirm: (SalaryPayment) -> Unit) {
     var month by remember { mutableStateOf(defaultMonth) }
