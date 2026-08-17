@@ -3,6 +3,7 @@ package com.saivani.workersbook.ui.theme
 import androidx.compose.ui.graphics.Color
 
 val BrandGreen = Color(0xFF1B5E20)
+val BrandGreenDark = Color(0xFF153F17)
 val BrandGreenLight = Color(0xFFE8F5E9)
 val AccentBlue = Color(0xFF1565C0)
 val AccentPink = Color(0xFFD81B60)
