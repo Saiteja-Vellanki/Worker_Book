@@ -3,7 +3,6 @@ package com.saivani.workersbook.ui.screens
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
@@ -13,10 +12,14 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.saivani.workersbook.R
@@ -30,10 +33,11 @@ import java.util.*
 @Composable
 fun DashboardScreen(viewModel: WorkersViewModel, onAddEntry: () -> Unit) {
     val entries by viewModel.entriesForSelectedDate.collectAsState()
+    val permanentWorkers by viewModel.permanentWorkers.collectAsState()
     val selectedDate by viewModel.selectedDate.collectAsState()
     val summary = viewModel.summaryFor(entries)
     val totalCost = entries.sumOf { it.totalAmount }
-    val totalPeople = entries.sumOf { it.numPeople }
+    val totalPeople = entries.sumOf { it.numPeople } + permanentWorkers.size
 
     val storageFormat = remember { SimpleDateFormat("yyyy-MM-dd", Locale.US) }
     val displayFormat = remember { SimpleDateFormat("dd MMM yyyy", Locale.US) }
@@ -44,20 +48,28 @@ fun DashboardScreen(viewModel: WorkersViewModel, onAddEntry: () -> Unit) {
     Scaffold(
         containerColor = SurfaceGray,
         floatingActionButton = {
-            FloatingActionButton(onClick = onAddEntry, containerColor = BrandGreen, contentColor = Color.White) {
+            FloatingActionButton(
+                onClick = onAddEntry,
+                containerColor = BrandGreen,
+                contentColor = Color.White,
+                shape = CircleShape,
+                elevation = FloatingActionButtonDefaults.elevation(defaultElevation = 6.dp, pressedElevation = 10.dp)
+            ) {
                 Icon(Icons.Filled.Add, contentDescription = stringResource(R.string.add_entry))
             }
         }
     ) { padding ->
         LazyColumn(
             modifier = Modifier.padding(padding).fillMaxSize(),
-            contentPadding = PaddingValues(bottom = 24.dp)
+            contentPadding = PaddingValues(bottom = 100.dp)
         ) {
-            // ---- Header bar ----
+            // ---- Header ----
             item {
                 Column(
-                    modifier = Modifier.fillMaxWidth().background(BrandGreen)
-                        .padding(horizontal = 16.dp, vertical = 14.dp)
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .background(Brush.verticalGradient(listOf(BrandGreen, BrandGreenDark)))
+                        .padding(horizontal = 18.dp, vertical = 16.dp)
                 ) {
                     Row(
                         modifier = Modifier.fillMaxWidth(),
@@ -66,130 +78,177 @@ fun DashboardScreen(viewModel: WorkersViewModel, onAddEntry: () -> Unit) {
                     ) {
                         Row(verticalAlignment = Alignment.CenterVertically) {
                             Icon(Icons.Filled.Menu, contentDescription = null, tint = Color.White)
-                            Spacer(Modifier.width(10.dp))
+                            Spacer(Modifier.width(12.dp))
                             Text(
                                 stringResource(R.string.dashboard_title),
                                 color = Color.White,
-                                fontSize = 20.sp,
+                                fontSize = 21.sp,
                                 fontWeight = FontWeight.Bold
                             )
                         }
-                        Icon(Icons.Filled.Notifications, contentDescription = stringResource(R.string.notifications), tint = Color.White)
+                        Box(
+                            modifier = Modifier.size(38.dp).clip(CircleShape).background(Color.White.copy(alpha = 0.14f)),
+                            contentAlignment = Alignment.Center
+                        ) {
+                            Icon(Icons.Filled.Notifications, contentDescription = stringResource(R.string.notifications), tint = Color.White, modifier = Modifier.size(20.dp))
+                        }
                     }
-                    Spacer(Modifier.height(4.dp))
+                    Spacer(Modifier.height(6.dp))
                     Row(verticalAlignment = Alignment.CenterVertically) {
-                        Text(stringResource(R.string.farm_name), color = Color.White.copy(alpha = 0.9f), fontSize = 14.sp)
-                        Icon(Icons.Filled.ArrowDropDown, contentDescription = null, tint = Color.White)
+                        Text(stringResource(R.string.farm_name), color = Color.White.copy(alpha = 0.92f), fontSize = 14.sp, fontWeight = FontWeight.Medium)
+                        Icon(Icons.Filled.ArrowDropDown, contentDescription = null, tint = Color.White.copy(alpha = 0.92f))
                     }
                 }
             }
 
-            // ---- Date navigator ----
+            // ---- Floating date navigator card ----
             item {
-                Row(
-                    modifier = Modifier.fillMaxWidth().background(Color.White)
-                        .padding(horizontal = 12.dp, vertical = 10.dp),
-                    horizontalArrangement = Arrangement.SpaceBetween,
-                    verticalAlignment = Alignment.CenterVertically
+                Card(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 16.dp)
+                        .offset(y = (-18).dp),
+                    shape = RoundedCornerShape(16.dp),
+                    colors = CardDefaults.cardColors(containerColor = Color.White),
+                    elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
                 ) {
-                    IconButton(onClick = {
-                        shiftDate(viewModel, storageFormat, selectedDate, -1)
-                    }) { Icon(Icons.Filled.ChevronLeft, contentDescription = "Previous day") }
-
-                    Row(verticalAlignment = Alignment.CenterVertically) {
-                        Icon(Icons.Filled.CalendarToday, contentDescription = null, tint = TextSecondary, modifier = Modifier.size(18.dp))
-                        Spacer(Modifier.width(8.dp))
-                        Text(displayDate, fontWeight = FontWeight.Medium)
+                    Row(
+                        modifier = Modifier.fillMaxWidth().padding(horizontal = 8.dp, vertical = 6.dp),
+                        horizontalArrangement = Arrangement.SpaceBetween,
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        IconButton(onClick = { shiftDate(viewModel, storageFormat, selectedDate, -1) }) {
+                            Icon(Icons.Filled.ChevronLeft, contentDescription = "Previous day", tint = BrandGreen)
+                        }
+                        Row(verticalAlignment = Alignment.CenterVertically) {
+                            Icon(Icons.Filled.CalendarToday, contentDescription = null, tint = TextSecondary, modifier = Modifier.size(16.dp))
+                            Spacer(Modifier.width(8.dp))
+                            Text(displayDate, fontWeight = FontWeight.SemiBold, fontSize = 15.sp, color = TextPrimary)
+                        }
+                        IconButton(onClick = { shiftDate(viewModel, storageFormat, selectedDate, 1) }) {
+                            Icon(Icons.Filled.ChevronRight, contentDescription = "Next day", tint = BrandGreen)
+                        }
                     }
-
-                    IconButton(onClick = {
-                        shiftDate(viewModel, storageFormat, selectedDate, 1)
-                    }) { Icon(Icons.Filled.ChevronRight, contentDescription = "Next day") }
                 }
             }
 
-            // ---- Category stat cards: row 1 (Permanent, Female, Male) ----
+            // ---- Category stat cards: row 1 ----
             item {
                 Row(
-                    modifier = Modifier.fillMaxWidth().padding(horizontal = 12.dp, vertical = 10.dp),
+                    modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp).offset(y = (-8).dp),
                     horizontalArrangement = Arrangement.spacedBy(10.dp)
                 ) {
                     CategoryStatCard(
                         icon = Icons.Filled.Groups, iconColor = PermanentGreen,
-                        label = stringResource(R.string.permanent), value = "3", suffix = stringResource(R.string.active),
+                        label = stringResource(R.string.permanent), value = permanentWorkers.size.toString(), suffix = stringResource(R.string.active),
                         modifier = Modifier.weight(1f)
                     )
                     CategoryStatCard(
                         icon = Icons.Filled.Person, iconColor = FemalePink,
-                        label = stringResource(R.string.female), value = (summary[WorkerType.FEMALE]?.first ?: 12).toString(), suffix = stringResource(R.string.active),
+                        label = stringResource(R.string.female), value = (summary[WorkerType.FEMALE]?.first ?: 0).toString(), suffix = stringResource(R.string.active),
                         modifier = Modifier.weight(1f)
                     )
                     CategoryStatCard(
                         icon = Icons.Filled.Person, iconColor = MaleBlue,
-                        label = stringResource(R.string.male), value = (summary[WorkerType.MALE]?.first ?: 8).toString(), suffix = stringResource(R.string.active),
+                        label = stringResource(R.string.male), value = (summary[WorkerType.MALE]?.first ?: 0).toString(), suffix = stringResource(R.string.active),
                         modifier = Modifier.weight(1f)
                     )
                 }
             }
 
-            // ---- Category stat cards: row 2 (Contract, Part-Time) ----
+            // ---- Category stat cards: row 2 ----
             item {
                 Row(
-                    modifier = Modifier.fillMaxWidth().padding(horizontal = 12.dp),
+                    modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 10.dp),
                     horizontalArrangement = Arrangement.spacedBy(10.dp)
                 ) {
                     CategoryStatCard(
                         icon = Icons.Filled.Handshake, iconColor = ContractOrange,
-                        label = stringResource(R.string.contract), value = (summary[WorkerType.CONTRACT]?.first ?: 1).toString(), suffix = stringResource(R.string.active),
+                        label = stringResource(R.string.contract), value = (summary[WorkerType.CONTRACT]?.first ?: 0).toString(), suffix = stringResource(R.string.active),
                         modifier = Modifier.weight(1f)
                     )
                     CategoryStatCard(
                         icon = Icons.Filled.Schedule, iconColor = PartTimePurple,
-                        label = stringResource(R.string.part_time), value = (summary[WorkerType.PART_TIME]?.first ?: 2).toString(), suffix = stringResource(R.string.active),
+                        label = stringResource(R.string.part_time), value = (summary[WorkerType.PART_TIME]?.first ?: 0).toString(), suffix = stringResource(R.string.active),
                         modifier = Modifier.weight(1f)
                     )
                     Spacer(modifier = Modifier.weight(1f))
                 }
             }
 
-            // ---- Summary cards ----
+            // ---- Summary cards (gradient, premium look) ----
             item {
                 Row(
-                    modifier = Modifier.fillMaxWidth().padding(horizontal = 12.dp, vertical = 10.dp),
+                    modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 4.dp),
                     horizontalArrangement = Arrangement.spacedBy(10.dp)
                 ) {
-                    SummaryTealCard(
+                    GradientSummaryCard(
                         icon = Icons.Filled.Groups2,
                         label = stringResource(R.string.total_active_workers),
-                        value = totalPeople.takeIf { it > 0 }?.toString() ?: "25",
+                        value = totalPeople.toString(),
+                        colors = listOf(Color(0xFF2E7D32), Color(0xFF1B5E20)),
                         modifier = Modifier.weight(1f)
                     )
-                    SummaryTealCard(
+                    GradientSummaryCard(
                         icon = Icons.Filled.Payments,
                         label = stringResource(R.string.total_labour_cost),
-                        value = "₹${if (totalCost > 0) totalCost.toInt() else 8500}",
+                        value = "₹${totalCost.toInt()}",
+                        colors = listOf(Color(0xFF1565C0), Color(0xFF0D47A1)),
                         modifier = Modifier.weight(1f)
                     )
                 }
             }
 
-            // ---- Today's Work Entries header ----
+            // ---- Today's Work Entries ----
             item {
                 Row(
-                    modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 8.dp),
+                    modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 12.dp).padding(top = 4.dp),
                     horizontalArrangement = Arrangement.SpaceBetween,
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    Text(stringResource(R.string.todays_work_entries), fontWeight = FontWeight.Bold, fontSize = 16.sp)
-                    Text(stringResource(R.string.view_all), color = BrandGreen, fontWeight = FontWeight.Medium)
+                    Text(stringResource(R.string.todays_work_entries), fontWeight = FontWeight.Bold, fontSize = 17.sp, color = TextPrimary)
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+                        Text(stringResource(R.string.view_all), color = BrandGreen, fontWeight = FontWeight.SemiBold, fontSize = 13.sp)
+                        Icon(Icons.Filled.ChevronRight, contentDescription = null, tint = BrandGreen, modifier = Modifier.size(16.dp))
+                    }
                 }
             }
 
-            val displayEntries = if (entries.isNotEmpty()) entries else sampleEntries()
-
-            items(displayEntries) { entry ->
-                DashboardEntryRow(entry)
-                Spacer(Modifier.height(8.dp))
+            item {
+                if (entries.isEmpty()) {
+                    Card(
+                        modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp),
+                        shape = RoundedCornerShape(16.dp),
+                        colors = CardDefaults.cardColors(containerColor = Color.White),
+                        elevation = CardDefaults.cardElevation(defaultElevation = 1.dp)
+                    ) {
+                        Column(
+                            modifier = Modifier.fillMaxWidth().padding(vertical = 32.dp),
+                            horizontalAlignment = Alignment.CenterHorizontally
+                        ) {
+                            Icon(Icons.Filled.EventNote, contentDescription = null, tint = TextSecondary.copy(alpha = 0.5f), modifier = Modifier.size(36.dp))
+                            Spacer(Modifier.height(8.dp))
+                            Text("No entries for this date yet", color = TextSecondary, fontSize = 13.sp, textAlign = TextAlign.Center)
+                            Text("Tap the + button to add one", color = TextSecondary.copy(alpha = 0.7f), fontSize = 12.sp)
+                        }
+                    }
+                } else {
+                    Card(
+                        modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp),
+                        shape = RoundedCornerShape(16.dp),
+                        colors = CardDefaults.cardColors(containerColor = Color.White),
+                        elevation = CardDefaults.cardElevation(defaultElevation = 1.dp)
+                    ) {
+                        Column {
+                            entries.forEachIndexed { index, entry ->
+                                DashboardEntryRow(entry)
+                                if (index != entries.lastIndex) {
+                                    Divider(color = SurfaceGray, thickness = 1.dp, modifier = Modifier.padding(horizontal = 14.dp))
+                                }
+                            }
+                        }
+                    }
+                }
             }
         }
     }
@@ -214,47 +273,49 @@ private fun CategoryStatCard(
     modifier: Modifier = Modifier
 ) {
     Card(
-        modifier = modifier,
-        shape = RoundedCornerShape(14.dp),
+        modifier = modifier.shadow(elevation = 2.dp, shape = RoundedCornerShape(16.dp), spotColor = iconColor.copy(alpha = 0.25f)),
+        shape = RoundedCornerShape(16.dp),
         colors = CardDefaults.cardColors(containerColor = Color.White),
-        elevation = CardDefaults.cardElevation(defaultElevation = 1.dp)
+        elevation = CardDefaults.cardElevation(defaultElevation = 0.dp)
     ) {
         Column(
-            modifier = Modifier.padding(vertical = 14.dp, horizontal = 8.dp).fillMaxWidth(),
+            modifier = Modifier.padding(vertical = 16.dp, horizontal = 8.dp).fillMaxWidth(),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Box(
-                modifier = Modifier.size(34.dp).clip(CircleShape).background(iconColor.copy(alpha = 0.12f)),
+                modifier = Modifier.size(40.dp).clip(CircleShape).background(iconColor.copy(alpha = 0.12f)),
                 contentAlignment = Alignment.Center
             ) {
-                Icon(icon, contentDescription = null, tint = iconColor, modifier = Modifier.size(18.dp))
+                Icon(icon, contentDescription = null, tint = iconColor, modifier = Modifier.size(20.dp))
             }
-            Spacer(Modifier.height(6.dp))
-            Text(label, fontSize = 12.sp, color = TextSecondary)
-            Spacer(Modifier.height(2.dp))
-            Text(value, fontSize = 18.sp, fontWeight = FontWeight.Bold, color = TextPrimary)
-            Text(suffix, fontSize = 11.sp, color = iconColor)
+            Spacer(Modifier.height(8.dp))
+            Text(label, fontSize = 12.sp, color = TextSecondary, fontWeight = FontWeight.Medium)
+            Spacer(Modifier.height(3.dp))
+            Text(value, fontSize = 20.sp, fontWeight = FontWeight.Bold, color = TextPrimary)
+            Text(suffix, fontSize = 10.sp, color = iconColor, fontWeight = FontWeight.SemiBold)
         }
     }
 }
 
 @Composable
-private fun SummaryTealCard(icon: ImageVector, label: String, value: String, modifier: Modifier = Modifier) {
-    Card(
-        modifier = modifier,
-        shape = RoundedCornerShape(14.dp),
-        colors = CardDefaults.cardColors(containerColor = BrandGreenLight)
+private fun GradientSummaryCard(icon: ImageVector, label: String, value: String, colors: List<Color>, modifier: Modifier = Modifier) {
+    Box(
+        modifier = modifier
+            .shadow(elevation = 4.dp, shape = RoundedCornerShape(16.dp), spotColor = colors.first().copy(alpha = 0.4f))
+            .clip(RoundedCornerShape(16.dp))
+            .background(Brush.linearGradient(colors, start = Offset(0f, 0f), end = Offset(300f, 300f)))
+            .padding(14.dp)
     ) {
-        Row(
-            modifier = Modifier.padding(14.dp).fillMaxWidth(),
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            Icon(icon, contentDescription = null, tint = BrandGreen, modifier = Modifier.size(22.dp))
-            Spacer(Modifier.width(10.dp))
-            Column {
-                Text(value, fontSize = 17.sp, fontWeight = FontWeight.Bold, color = BrandGreen)
-                Text(label, fontSize = 11.sp, color = TextSecondary)
+        Column {
+            Box(
+                modifier = Modifier.size(30.dp).clip(CircleShape).background(Color.White.copy(alpha = 0.18f)),
+                contentAlignment = Alignment.Center
+            ) {
+                Icon(icon, contentDescription = null, tint = Color.White, modifier = Modifier.size(16.dp))
             }
+            Spacer(Modifier.height(10.dp))
+            Text(value, fontSize = 19.sp, fontWeight = FontWeight.Bold, color = Color.White)
+            Text(label, fontSize = 11.sp, color = Color.White.copy(alpha = 0.85f), fontWeight = FontWeight.Medium)
         }
     }
 }
@@ -264,33 +325,28 @@ private fun DashboardEntryRow(entry: WorkEntry) {
     val (icon, color) = iconAndColorFor(entry.workerType)
     val timeText = remember(entry.createdAt) { SimpleDateFormat("h:mm a", Locale.US).format(Date(entry.createdAt)) }
 
-    Card(
-        modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp),
-        shape = RoundedCornerShape(12.dp),
-        colors = CardDefaults.cardColors(containerColor = Color.White),
-        elevation = CardDefaults.cardElevation(defaultElevation = 1.dp)
+    Row(
+        modifier = Modifier.fillMaxWidth().padding(14.dp),
+        verticalAlignment = Alignment.CenterVertically
     ) {
-        Row(
-            modifier = Modifier.padding(12.dp).fillMaxWidth(),
-            verticalAlignment = Alignment.CenterVertically
+        Box(
+            modifier = Modifier.size(42.dp).clip(CircleShape).background(color.copy(alpha = 0.12f)),
+            contentAlignment = Alignment.Center
         ) {
-            Box(
-                modifier = Modifier.size(38.dp).clip(CircleShape).background(color.copy(alpha = 0.12f)),
-                contentAlignment = Alignment.Center
-            ) {
-                Icon(icon, contentDescription = null, tint = color, modifier = Modifier.size(20.dp))
-            }
-            Spacer(Modifier.width(12.dp))
-            Column(modifier = Modifier.weight(1f)) {
-                Text(labelFor(entry.workerType) + " Workers", fontWeight = FontWeight.Bold, fontSize = 14.sp)
-                Text(entry.workType, fontSize = 12.sp, color = TextSecondary)
-                Text(
-                    "${entry.numPeople} ${if (entry.workerType == WorkerType.CONTRACT) "Contract" else "People"} • ₹${entry.totalAmount.toInt()}",
-                    fontSize = 12.sp,
-                    color = TextSecondary
-                )
-            }
-            Text(timeText, fontSize = 12.sp, color = TextSecondary)
+            Icon(icon, contentDescription = null, tint = color, modifier = Modifier.size(21.dp))
+        }
+        Spacer(Modifier.width(12.dp))
+        Column(modifier = Modifier.weight(1f)) {
+            Text(labelFor(entry.workerType) + " Workers", fontWeight = FontWeight.SemiBold, fontSize = 14.sp, color = TextPrimary)
+            Text(entry.workType, fontSize = 12.sp, color = TextSecondary)
+        }
+        Column(horizontalAlignment = Alignment.End) {
+            Text("₹${entry.totalAmount.toInt()}", fontWeight = FontWeight.Bold, fontSize = 14.sp, color = TextPrimary)
+            Text(
+                "${entry.numPeople} ${if (entry.workerType == WorkerType.CONTRACT) "Contract" else "People"} · $timeText",
+                fontSize = 11.sp,
+                color = TextSecondary
+            )
         }
     }
 }
@@ -300,15 +356,4 @@ private fun iconAndColorFor(type: WorkerType): Pair<ImageVector, Color> = when (
     WorkerType.FEMALE -> Icons.Filled.Person to FemalePink
     WorkerType.CONTRACT -> Icons.Filled.Handshake to ContractOrange
     WorkerType.PART_TIME -> Icons.Filled.Schedule to PartTimePurple
-}
-
-/** Shown only when there are no real entries yet, so the dashboard still demonstrates the intended layout. */
-private fun sampleEntries(): List<WorkEntry> {
-    val now = System.currentTimeMillis()
-    return listOf(
-        WorkEntry(date = "", workerType = WorkerType.MALE, numPeople = 10, pricePerUnit = 280.0, totalAmount = 2800.0, workType = "Field Work", createdAt = now - 4 * 3600_000),
-        WorkEntry(date = "", workerType = WorkerType.FEMALE, numPeople = 12, pricePerUnit = 200.0, totalAmount = 2400.0, workType = "Weeding & Cleaning", createdAt = now - 4 * 3600_000),
-        WorkEntry(date = "", workerType = WorkerType.CONTRACT, numPeople = 1, pricePerUnit = 1800.0, totalAmount = 1800.0, workType = "Harvesting (Contract)", contractorName = "Ramesh Group", createdAt = now - 3 * 3600_000),
-        WorkEntry(date = "", workerType = WorkerType.PART_TIME, numPeople = 2, pricePerUnit = 500.0, totalAmount = 1000.0, workType = "Spraying", createdAt = now - 1800_000),
-    )
 }
