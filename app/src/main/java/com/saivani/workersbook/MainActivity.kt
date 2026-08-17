@@ -1,5 +1,6 @@
 package com.saivani.workersbook
 
+import android.graphics.Color as AndroidColor
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -9,6 +10,7 @@ import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.core.view.WindowCompat
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavGraph.Companion.findStartDestination
@@ -17,12 +19,18 @@ import com.saivani.workersbook.data.AppDatabase
 import com.saivani.workersbook.repository.WorkersRepository
 import com.saivani.workersbook.ui.Screen
 import com.saivani.workersbook.ui.screens.*
+import com.saivani.workersbook.ui.theme.BrandGreenDark
 import com.saivani.workersbook.ui.theme.WorkersBookTheme
 import com.saivani.workersbook.viewmodel.WorkersViewModel
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        // Status bar matches the app's dark-green header so the UI reads as one
+        // continuous surface instead of a default gray system bar on top of it.
+        window.statusBarColor = AndroidColor.parseColor("#153F17")
+        WindowCompat.getInsetsController(window, window.decorView).isAppearanceLightStatusBars = false
 
         val dao = AppDatabase.getInstance(applicationContext).workersDao()
         val repository = WorkersRepository(dao)
