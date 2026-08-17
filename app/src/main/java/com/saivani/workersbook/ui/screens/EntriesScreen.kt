@@ -45,12 +45,29 @@ fun EntriesScreen(viewModel: WorkersViewModel, onAddEntry: () -> Unit) {
                 modifier = Modifier.fillMaxSize().padding(horizontal = 12.dp),
                 verticalArrangement = Arrangement.spacedBy(8.dp)
             ) {
-                items(filtered) { entry -> EntryRow(entry) }
+                items(filtered) { entry -> SimpleEntryRow(entry) }
                 if (filtered.isEmpty()) {
                     item { Text("No entries found.", modifier = Modifier.padding(16.dp)) }
                 }
                 item { Spacer(Modifier.height(72.dp)) }
             }
+        }
+    }
+}
+
+@Composable
+private fun SimpleEntryRow(entry: com.saivani.workersbook.data.WorkEntry) {
+    Card(modifier = Modifier.fillMaxWidth()) {
+        Row(
+            modifier = Modifier.padding(12.dp).fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = androidx.compose.ui.Alignment.CenterVertically
+        ) {
+            Column {
+                Text(entry.workType, fontWeight = androidx.compose.ui.text.font.FontWeight.Bold)
+                Text("${entry.numPeople} people", style = MaterialTheme.typography.bodySmall)
+            }
+            Text("₹${entry.totalAmount.toInt()}", fontWeight = androidx.compose.ui.text.font.FontWeight.Bold)
         }
     }
 }
