@@ -76,4 +76,6 @@
     <string name="edit">Edit</string>
     <string name="language">Language</string>
     <string name="farm_name">Arecanut Farm</string>
+    <string name="notifications">Notifications</string>
+    <string name="today_work_entries_time">%1$s</string>
 </resources>
